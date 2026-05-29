@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "cv11", "ss01", "ss03";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body { background: radial-gradient(circle at 1px 1px, rgba(0,0,0,.04) 1px, transparent 0) 0 0 / 22px 22px, #f7f6f2; }
+
+  /* "font-head" — kiemelt szövegek (címsorok, KPI-értékek). Egységes Inter,
+     félkövér, szorosabb betűközzel — letisztult, profi megjelenés. */
+  .font-head { font-weight: 600; letter-spacing: -0.02em; }
+
+  h1.font-head, h2.font-head { font-weight: 700; letter-spacing: -0.025em; }
+
+  /* "font-hand" — UI szövegek (chip, btn, label). Inter, alap súly. */
+  .font-hand { font-weight: 500; letter-spacing: -0.005em; }
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-ink bg-card px-3.5 py-1.5 text-sm font-medium text-ink shadow-soft hover:bg-paper active:translate-y-px transition; }
+  .btn-primary { @apply border-brand-500 bg-brand-500 text-white hover:bg-brand-600 hover:border-brand-600; }
+  .btn-ghost { @apply border-dashed border-line text-subtle bg-transparent shadow-none hover:text-ink hover:border-ink; }
+  .btn-sm { @apply px-2.5 py-1 text-xs; }
+  .btn-marker { @apply bg-marker border-ink text-ink; }
+
+  .chip { @apply inline-flex items-center rounded-full border-2 border-line px-3 py-0.5 text-sm text-ink whitespace-nowrap; }
+  .chip-on { @apply border-brand-500 text-brand-700 bg-brand-50; }
+  .chip-ghost { @apply border-dashed text-subtle; }
+
+  .card { @apply rounded-xl border-2 border-ink bg-card p-4 shadow-card; }
+  .card-fill { @apply bg-[#faf9f4]; }
+  .card-ghost { @apply border-dashed border-line bg-transparent; }
+  .card-accent { @apply border-brand-500; }
+
+  .input { @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink placeholder:text-subtle focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none; }
+  .label { @apply text-xs font-medium uppercase tracking-wider text-subtle; }
+
+  .meter { @apply h-2.5 w-full rounded-full bg-hatch overflow-hidden; }
+  .meter > i { @apply block h-full bg-brand-500; }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "csapatepito",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Belsős csapatépítő szervező alkalmazás (MVP P0)",
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "db:migrate": "npm --prefix server run db:migrate"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

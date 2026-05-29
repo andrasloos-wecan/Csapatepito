@@ -1,0 +1,186 @@
+// Csapatépítő — adatmodell (SQLite, Prisma)
+// Megjegyzés: SQLite nem támogat natív enumokat, ezért stringekkel dolgozunk.
+// Érvényes értékek a kódban (utils/enums.js) validáltak.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id           String   @id @default(cuid())
+  name         String
+  primaryColor String   @default("#3b6ea5")
+  logoUrl      String?
+  createdAt    DateTime @default(now())
+
+  users      User[]
+  events     Event[]
+  activities Activity[]
+  templates  EventTemplate[]
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  name           String
+  role           String   @default("ORGANIZER") // ADMIN | ORGANIZER
+  organizationId String
+  createdAt      DateTime @default(now())
+
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  createdEvents Event[]      @relation("EventCreatedBy")
+  comments      Comment[]
+}
+
+model Event {
+  id                String   @id @default(cuid())
+  name              String
+  type              String   @default("CSAPATNAP") // CSAPATNAP | OFFSITE | RETRO | OTHER
+  status            String   @default("OTLET")     // OTLET | SZAVAZAS | VEGLEGES | LEZAJLOTT
+  startDate         DateTime?
+  endDate           DateTime?
+  location          String?
+  description       String?
+  expectedHeadcount Int      @default(0)
+  budgetPlanned     Int      @default(0)
+  budgetActual      Int      @default(0)
+  goals             String   @default("[]") // JSON tömb: ["kotodes", "kommunikacio", ...]
+  voteDeadline      DateTime?
+  createdById       String
+  organizationId    String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  createdBy      User             @relation("EventCreatedBy", fields: [createdById], references: [id])
+  organization   Organization     @relation(fields: [organizationId], references: [id])
+  eventActivities EventActivity[]
+  participants   Participant[]
+  comments       Comment[]
+  polls          Poll[]
+  feedback       Feedback[]
+}
+
+model Activity {
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  category       String   // JEGTORO | KOMMUNIKACIO | BIZALOM | PROBLEMA | KREATIV | FIZIKAI | ONLINE | KVIZ
+  minSize        Int      @default(4)
+  maxSize        Int      @default(50)
+  durationMin    Int      @default(30)
+  indoor         Boolean  @default(true)
+  outdoor        Boolean  @default(false)
+  energyLevel    String   @default("KOZEPES") // ALACSONY | KOZEPES | MAGAS
+  materials      String   @default("")
+  steps          String   @default("[]") // JSON tömb stringek
+  tips           String   @default("")
+  variations     String   @default("")
+  imageEmoji     String   @default("✦")
+  isCustom       Boolean  @default(false)
+  organizationId String?  // null = globális (seed); kitöltve = saját aktivitás
+  createdAt      DateTime @default(now())
+
+  organization    Organization?    @relation(fields: [organizationId], references: [id])
+  eventActivities EventActivity[]
+}
+
+model EventActivity {
+  id          String    @id @default(cuid())
+  eventId     String
+  activityId  String?
+  customTitle String?
+  startTime   String    @default("09:00") // "HH:mm"
+  durationMin Int       @default(30)
+  lane        String    @default("Fő helyszín")
+  notes       String    @default("")
+  position    Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  event    Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  activity Activity? @relation(fields: [activityId], references: [id])
+}
+
+model Participant {
+  id            String   @id @default(cuid())
+  eventId       String
+  name          String
+  email         String?
+  dietary       String   @default("[]") // JSON tömb: ["vegan", "gluten-mentes", ...]
+  accessibility String   @default("")
+  team          String?
+  rsvp          String   @default("PENDING") // PENDING | YES | NO | MAYBE
+  accessToken   String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  event     Event       @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  pollVotes PollVote[]
+  feedback  Feedback[]
+}
+
+model Comment {
+  id           String   @id @default(cuid())
+  eventId      String
+  blockKey     String   // "helyszin" | "program" | "csapat" | "koltseg" | "fotok"
+  authorUserId String?
+  authorName   String
+  content      String
+  createdAt    DateTime @default(now())
+
+  event      Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  authorUser User? @relation(fields: [authorUserId], references: [id])
+}
+
+model Poll {
+  id        String    @id @default(cuid())
+  eventId   String
+  type      String    @default("MOOD") // QUIZ | MOOD | QA
+  question  String
+  options   String    @default("[]")    // JSON tömb a választható válaszokkal
+  createdAt DateTime  @default(now())
+  closedAt  DateTime?
+
+  event Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  votes PollVote[]
+}
+
+model PollVote {
+  id            String   @id @default(cuid())
+  pollId        String
+  participantId String?
+  answer        String
+  createdAt     DateTime @default(now())
+
+  poll        Poll         @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  participant Participant? @relation(fields: [participantId], references: [id])
+}
+
+model Feedback {
+  id            String   @id @default(cuid())
+  eventId       String
+  participantId String?
+  nps           Int?
+  rating        Int?
+  text          String   @default("")
+  anonymous     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  event       Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  participant Participant? @relation(fields: [participantId], references: [id])
+}
+
+model EventTemplate {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  data           String   // JSON snapshot
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+}
