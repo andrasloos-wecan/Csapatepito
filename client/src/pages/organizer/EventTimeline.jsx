@@ -141,7 +141,7 @@ function Lane({ lane, items, range, eventId, onUpdate }) {
           backgroundImage:
             "repeating-linear-gradient(90deg, transparent, transparent " +
             (HOUR_WIDTH - 1) +
-            "px, #b9b6ad 0, #b9b6ad " +
+            "px, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) " +
             HOUR_WIDTH +
             "px)",
         }}
@@ -157,7 +157,7 @@ function Lane({ lane, items, range, eventId, onUpdate }) {
                 await api.delete(`/events/${eventId}/agenda/${it.id}`);
                 onUpdate();
               }}
-              className={`absolute top-1 bottom-1 rounded-lg border-2 border-ink px-2 py-1 text-xs text-left overflow-hidden ${
+              className={`absolute top-1 bottom-1 rounded-md border px-2 py-1 text-xs text-left overflow-hidden ${
                 laneColor(lane)
               }`}
               style={{
@@ -169,7 +169,7 @@ function Lane({ lane, items, range, eventId, onUpdate }) {
               <div className="font-medium leading-snug truncate">
                 {it.customTitle || it.activity?.name}
               </div>
-              <div className="text-[10px] text-ink/70">{it.startTime}</div>
+              <div className="text-[10px] opacity-70">{it.startTime}</div>
             </button>
           );
         })}
@@ -391,7 +391,9 @@ function hhmm(s) {
   return h * 60 + m;
 }
 function laneColor(lane) {
-  if (lane.includes("Catering") || lane.toLowerCase().includes("ebéd")) return "bg-[#f8f1ee]";
-  if (lane.includes("B") || lane.includes("Workshop")) return "bg-[#f3eef8]";
-  return "bg-[#eef3f8]";
+  if (lane.includes("Catering") || lane.toLowerCase().includes("ebéd"))
+    return "bg-amber-500/15 text-amber-200 border-amber-500/40";
+  if (lane.includes("B") || lane.includes("Workshop"))
+    return "bg-purple-500/15 text-purple-200 border-purple-500/40";
+  return "bg-brand-500/15 text-brand-700 border-brand-500/40";
 }

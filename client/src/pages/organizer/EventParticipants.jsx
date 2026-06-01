@@ -6,9 +6,9 @@ import { Btn, Chip, Spinner, EmptyState } from "../../components/primitives.jsx"
 const RSVP_LABEL = { PENDING: "Vár", YES: "Igen", NO: "Nem", MAYBE: "Talán" };
 const RSVP_CLS = {
   PENDING: "bg-hatch text-subtle border-line",
-  YES: "bg-[#e3f6ec] text-[#1d6a3e] border-[#a3d5b9]",
-  NO: "bg-[#fbeae5] text-[#7a2b1a] border-[#e6b6a6]",
-  MAYBE: "bg-[#fff3d6] text-[#8a5b00] border-[#e6cc80]",
+  YES:     "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
+  NO:      "bg-rose-500/10    text-rose-300    border-rose-500/30",
+  MAYBE:   "bg-amber-500/10   text-amber-300   border-amber-500/30",
 };
 
 export default function EventParticipants() {

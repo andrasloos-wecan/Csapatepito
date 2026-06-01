@@ -101,7 +101,7 @@ export function Avatar({ children, sm, className = "" }) {
   const size = sm ? "h-6 w-6 text-[10px]" : "h-8 w-8 text-xs";
   return (
     <span
-      className={`${size} inline-flex items-center justify-center rounded-full bg-card border-2 border-ink font-medium ${className}`}
+      className={`${size} inline-flex items-center justify-center rounded-full bg-elevated border border-line text-ink font-medium ${className}`}
     >
       {children}
     </span>
@@ -109,15 +109,16 @@ export function Avatar({ children, sm, className = "" }) {
 }
 
 export function AvStack({ names = [], extra }) {
+  const ring = "shadow-[0_0_0_2px_#131836]";
   return (
     <div className="flex">
       {names.map((n, i) => (
-        <Avatar key={i} sm className={i ? "-ml-2 shadow-[0_0_0_2px_white]" : ""}>
+        <Avatar key={i} sm className={i ? `-ml-2 ${ring}` : ""}>
           {n}
         </Avatar>
       ))}
       {extra ? (
-        <Avatar sm className={`${names.length ? "-ml-2" : ""} shadow-[0_0_0_2px_white]`}>
+        <Avatar sm className={`${names.length ? "-ml-2" : ""} ${ring}`}>
           {extra}
         </Avatar>
       ) : null}
@@ -127,15 +128,15 @@ export function AvStack({ names = [], extra }) {
 
 export function StatusBadge({ status }) {
   const map = {
-    OTLET: { label: "Ötletelés", cls: "bg-[#fff3d6] text-[#8a5b00] border-[#e6cc80]" },
-    SZAVAZAS: { label: "Szavazás", cls: "bg-[#e7f0fb] text-[#1f4d7a] border-[#a6c3e3]" },
-    VEGLEGES: { label: "Véglegesítve", cls: "bg-[#e3f6ec] text-[#1d6a3e] border-[#a3d5b9]" },
-    LEZAJLOTT: { label: "Lezajlott", cls: "bg-hatch text-subtle border-line" },
+    OTLET:    { label: "Ötletelés",   cls: "bg-amber-500/10  text-amber-300  border-amber-500/30" },
+    SZAVAZAS: { label: "Szavazás",    cls: "bg-brand-500/10  text-brand-700  border-brand-500/30" },
+    VEGLEGES: { label: "Véglegesítve", cls: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" },
+    LEZAJLOTT:{ label: "Lezajlott",   cls: "bg-hatch text-subtle border-line" },
   };
   const it = map[status] || map.OTLET;
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${it.cls}`}
+      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${it.cls}`}
     >
       {it.label}
     </span>
@@ -144,11 +145,11 @@ export function StatusBadge({ status }) {
 
 export function EmptyState({ title, hint, action }) {
   return (
-    <div className="card card-ghost text-center py-12">
-      <div className="text-4xl mb-2">✦</div>
+    <div className="card card-ghost text-center py-16">
+      <div className="text-3xl mb-3 text-brand-500/60">✦</div>
       <div className="font-medium text-ink">{title}</div>
-      {hint && <div className="text-sm text-subtle mt-1 max-w-md mx-auto">{hint}</div>}
-      {action && <div className="mt-4">{action}</div>}
+      {hint && <div className="text-sm text-subtle mt-1.5 max-w-md mx-auto leading-relaxed">{hint}</div>}
+      {action && <div className="mt-5">{action}</div>}
     </div>
   );
 }
@@ -156,7 +157,17 @@ export function EmptyState({ title, hint, action }) {
 export function Spinner({ className = "" }) {
   return (
     <div
-      className={`inline-block h-4 w-4 animate-spin rounded-full border-2 border-line border-t-brand-500 ${className}`}
+      className={`inline-block h-4 w-4 animate-spin rounded-full border-2 border-line/40 border-t-brand-500 ${className}`}
     />
+  );
+}
+
+/* wecan-stílusú szekció-fejléc kis aláhúzó vonallal */
+export function SectionLabel({ children, className = "" }) {
+  return (
+    <div className={`label flex items-center gap-2.5 ${className}`}>
+      <span className="h-px w-6 bg-brand-500" />
+      <span>{children}</span>
+    </div>
   );
 }

@@ -71,14 +71,21 @@ function SideLink({ to, children, exact }) {
       to={to}
       end={exact}
       className={({ isActive }) =>
-        `block rounded-lg px-3 py-2 transition ${
+        `relative block rounded-md px-3 py-2 transition ${
           isActive
-            ? "bg-brand-50 text-brand-700 font-medium"
-            : "text-subtle hover:bg-paper hover:text-ink"
+            ? "bg-brand-500/10 text-ink font-medium"
+            : "text-subtle hover:bg-elevated hover:text-ink"
         }`
       }
     >
-      {children}
+      {({ isActive }) => (
+        <>
+          {isActive && (
+            <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 bg-brand-500 rounded-r" />
+          )}
+          <span className={isActive ? "pl-1.5" : ""}>{children}</span>
+        </>
+      )}
     </NavLink>
   );
 }

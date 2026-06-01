@@ -177,8 +177,8 @@ function KanbanColumn({ col, events, draggingId, onCardClick }) {
 
       <div
         ref={setNodeRef}
-        className={`flex-1 min-h-[200px] rounded-xl border-2 border-dashed p-2 space-y-2 transition ${
-          isOver ? "border-brand-500 bg-brand-50/40" : "border-line bg-[#faf9f4]/40"
+        className={`flex-1 min-h-[220px] rounded-xl border border-dashed p-2 space-y-2 transition ${
+          isOver ? "border-brand-500 bg-brand-500/[0.06]" : "border-line bg-card/30"
         }`}
       >
         {events.map((e) => (
@@ -225,8 +225,8 @@ function DraggableCard({ event, hidden, onClick }) {
 function EventCard({ event, dragging }) {
   return (
     <div
-      className={`bg-card border-2 border-ink rounded-xl p-3 hover:shadow-card transition ${
-        dragging ? "shadow-card rotate-1" : ""
+      className={`bg-card border border-line rounded-lg p-3.5 hover:border-brand-500/40 hover:bg-elevated transition ${
+        dragging ? "shadow-card rotate-1 border-brand-500" : ""
       }`}
     >
       <div className="text-[15px] font-medium leading-snug">{event.name}</div>

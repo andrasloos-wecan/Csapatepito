@@ -283,11 +283,11 @@ const Block = forwardRef(function Block(
 
       {children}
 
-      <div className="mt-4 border-t border-dashed border-line/70 pt-3 space-y-2">
+      <div className="mt-5 border-t border-line/60 pt-4 space-y-2">
         {comments.map((c) => (
           <div key={c.id} className="flex items-start gap-2">
-            <span className="bg-marker border-2 border-ink rounded-tl-lg rounded-tr-lg rounded-br-lg rounded-bl-sm px-3 py-1.5 text-sm">
-              <span className="font-medium">@{c.authorName}:</span> {c.content}
+            <span className="bg-brand-500/10 border border-brand-500/30 text-ink rounded-tl-lg rounded-tr-lg rounded-br-lg rounded-bl-sm px-3 py-1.5 text-sm">
+              <span className="font-medium text-brand-700">@{c.authorName}:</span> {c.content}
             </span>
           </div>
         ))}

@@ -76,10 +76,10 @@ export default function Settings() {
                 <button
                   key={c}
                   onClick={() => save({ primaryColor: c })}
-                  className="h-10 w-10 rounded-lg border-2"
+                  className="h-10 w-10 rounded-lg border-2 transition"
                   style={{
                     background: c,
-                    borderColor: org.primaryColor === c ? "#000" : "transparent",
+                    borderColor: org.primaryColor === c ? "#ffffff" : "rgba(255,255,255,0.1)",
                   }}
                   aria-label={c}
                 />

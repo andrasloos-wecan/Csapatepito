@@ -4,24 +4,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#34322c",
-        paper: "#f7f6f2",
-        card: "#fffefb",
-        line: "#b9b6ad",
-        subtle: "#8c897f",
-        hatch: "#ecebe5",
-        marker: "#f3df8e",
+        // ──────────────────────────────────────────────────────────
+        // wecan.technology-inspired sötét paletta — deep navy + electric blue
+        // A szemantikus névhasználat (paper = bg, card = surface, ink = text)
+        // megmarad — csak az értékek lettek sötét-módra cserélve, így a
+        // komponensek többségéhez nem kellett hozzányúlni.
+        // ──────────────────────────────────────────────────────────
+        ink: "#ffffff",         // primer szöveg (fehér)
+        paper: "#0b0f24",       // primer háttér (deep navy)
+        card: "#131836",        // felület (kártya, sidebar)
+        elevated: "#1c2148",    // emelt felület (hover, kpi, modal)
+        subtle: "#a8b0c8",      // halvány szöveg
+        line: "#2a3160",        // diszkrét keret (látható mind a bg-n, mind a card-on)
+        hatch: "#1a1f3d",       // diszkrét bg-szín (alternáló sorok stb.)
+        marker: "#f3df8e",      // sárga kiemelő — komment-buborékhoz megmarad
+
+        // Brand: electric blue accent.
+        // A szám-skála a sötét témán szándékosan részben "inverz":
+        //   brand-50..100  → dark blue tint (kártya-háttérhez aktív állapotnál)
+        //   brand-500      → AZ akcent
+        //   brand-600      → hover (világosabb)
+        //   brand-700+     → light blue szöveg sötét kék felületen
         brand: {
-          50:  "#eef3f8",
-          100: "#dce8f2",
-          200: "#b8d2e6",
-          300: "#8db5d3",
-          400: "#5d92ba",
-          500: "#3b6ea5",
-          600: "#2f5984",
-          700: "#264665",
-          800: "#1d344a",
-          900: "#152330",
+          50:  "#1e2654",
+          100: "#2a3580",
+          200: "#3d4ca8",
+          300: "#4d6cd6",
+          400: "#5b8fff",
+          500: "#5b8fff",   // PRIMER ACCENT
+          600: "#6a9bff",   // hover
+          700: "#a3bcff",   // text-on-dark-blue
+          800: "#c3d2ff",
+          900: "#e3eaff",
         },
       },
       fontFamily: {
@@ -30,8 +44,9 @@ export default {
         hand: ['"Inter"', "system-ui", "sans-serif"],
       },
       boxShadow: {
-        card: "0 1px 0 rgba(0,0,0,.02), 0 8px 24px -10px rgba(0,0,0,.12)",
-        soft: "0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.06)",
+        card: "0 1px 0 rgba(255,255,255,0.04) inset, 0 12px 32px -12px rgba(0,0,0,0.5)",
+        soft: "0 1px 2px rgba(0,0,0,.2), 0 1px 3px rgba(0,0,0,.15)",
+        glow: "0 0 0 4px rgba(91,143,255,0.18)",
       },
     },
   },
